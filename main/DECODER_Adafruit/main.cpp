@@ -2,6 +2,8 @@
 
 #include <config.h>
 
+#include <Adafruit_NeoPixel.h>
+
 bool checkLivedata()
 {
   unsigned long lastPacket = DMXSerial.noDataSince();
@@ -21,26 +23,24 @@ void updateData()
 
   for (int i = 0; i < MAX_VIABLE_LEDS; i++)
   {
-    uint8_t RED = DMXSerial.read((i * 3) + 1);
-    uint8_t GREEN = DMXSerial.read((i * 3) + 2);
-    uint8_t BLUE = DMXSerial.read((i * 3) + 3);
+    RED = DMXSerial.read(1 + (i * 3));
+    GREEN = DMXSerial.read(2 + (i * 3));
+    BLUE = DMXSerial.read(3 + (i * 3));
 
     strip.setPixelColor(i, RED, GREEN, BLUE);
   }
-  
+
   strip.show();
 }
 
 void setup()
 {
   DMXSerial.init(DMXReceiver, 2); 
-
-  strip.begin();
 }
 
 void loop()
 {
   updateData();
 
-  delay(10);
+  delay(25);
 }

@@ -2,7 +2,7 @@
 
 #include <config.h>
 
-#include <Adafruit_NeoPixel.h>
+CRGB leds[MAX_VIABLE_LEDS];
 
 bool checkLivedata()
 {
@@ -27,15 +27,19 @@ void updateData()
     GREEN = DMXSerial.read(2 + (i * 3));
     BLUE = DMXSerial.read(3 + (i * 3));
 
-    strip.setPixelColor(i, RED, GREEN, BLUE);
+    CRGB c(RED, GREEN, BLUE);
+    leds[i] = c;
   }
 
-  strip.show();
+  FastLED.show();
 }
 
 void setup()
 {
-  DMXSerial.init(DMXReceiver, 2); 
+  DMXSerial.init(DMXReceiver, 2);
+
+  FastLED.addLeds<NEOPIXEL, DATA_PIN>(leds, MAX_VIABLE_LEDS);
+
 }
 
 void loop()

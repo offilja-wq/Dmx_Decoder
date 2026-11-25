@@ -15,11 +15,11 @@ void updateData()
 {
   if (!checkLivedata())
   {
-    digitalWrite(LED_BUILTIN, 0);
+    digitalWrite(INDICATOR_LED_PIN, 0);
     return;
   }
 
-  digitalWrite(LED_BUILTIN, 1);
+  digitalWrite(INDICATOR_LED_PIN, 1);
 
   for (int i = 0; i < MAX_VIABLE_LEDS; i++)
   {
@@ -39,12 +39,11 @@ void setup()
   DMXSerial.init(DMXReceiver, 2);
 
   FastLED.addLeds<NEOPIXEL, DATA_PIN>(leds, MAX_VIABLE_LEDS);
-
 }
 
 void loop()
 {
   updateData();
 
-  delay(25);
+  delay(1000 / REFRESH_RATE);
 }
